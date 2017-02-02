@@ -1,0 +1,15 @@
+{
+  "name": "twig-search-tool",
+  "productName": "TwigSearchTool",
+  "version": "0.0.1",
+  "description": "Electron tool for searching through twig files for components Edit",
+  "main": "./main.js",
+  "author": {
+    "name": "Bogdan Begovic",
+    "email": "bogdanbegovic@gmail.com",
+    "url": "https://github.com/BugiDev"
+  },
+  "license": "MIT",
+  "dependencies": {
+  }
+}
