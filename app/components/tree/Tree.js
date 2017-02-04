@@ -1,18 +1,16 @@
-import React, {Component} from 'react';
-import {Link} from 'react-router';
-import styles from './Tree.css';
-import {Treebeard, decorators} from 'react-treebeard';
+import React, { Component } from 'react';
+import { Treebeard, decorators } from 'react-treebeard';
 
 decorators.Header = (props) => {
     const style = props.style;
     const node = props.node;
     const iconType = props.node.children ? 'folder-o' : 'file-code-o';
     const iconClass = `fa fa-${iconType}`;
-    const iconStyle = {marginRight: '5px'};
+    const iconStyle = { marginRight: '5px' };
     return (
         <div style={style.base}>
             <div style={style.title}>
-                <i className={iconClass} style={iconStyle}/>
+                <i className={iconClass} style={iconStyle} />
                 {props.node.name}
             </div>
         </div>
@@ -102,8 +100,8 @@ const data = {
         {
             name: 'parent',
             children: [
-                {name: 'child1'},
-                {name: 'child2'}
+                { name: 'child1' },
+                { name: 'child2' }
             ]
         },
         {
@@ -117,8 +115,8 @@ const data = {
                 {
                     name: 'nested parent',
                     children: [
-                        {name: 'nested child 1'},
-                        {name: 'nested child 2'}
+                        { name: 'nested child 1' },
+                        { name: 'nested child 2' }
                     ]
                 }
             ]
@@ -143,7 +141,7 @@ export default class Tree extends Component {
         } else {
             alert('single');
         }
-        this.setState({cursor: node});
+        this.setState({ cursor: node });
     }
 
     render() {
