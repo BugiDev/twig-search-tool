@@ -1,5 +1,10 @@
 import { app, BrowserWindow, Menu, shell, ipcMain } from 'electron';
 
+const Search = require('./search/Search');
+const Config = require('electron-config');
+
+const config = new Config();
+
 let menu;
 let template;
 let mainWindow = null;
@@ -277,7 +282,34 @@ app.on('ready', async () => {
     }
 });
 
-ipcMain.on('test', (event, arg) => {
-    // Print 1
-    console.log(arg);
+ipcMain.on('search', (event, arg) => {
+    let results = [];
+    const basePath = config.get('basePath');
+
+    if (arg && arg.type && basePath) {
+        switch (arg.type) {
+            case 'single-component':
+                results = Search.singleComponent(arg.data, basePath);
+                break;
+            case 'multi-component':
+                results = Search.multiComponent(arg.data, basePath);
+                break;
+            case 'component-with-attribute':
+                results = Search.componentWithAttribute(arg.data, basePath);
+                break;
+            case 'component-with-attribute-and-value':
+                results = Search.componentWithAttributeAndValue(arg.data, basePath);
+                break;
+            case 'parent-contains-child':
+                results = Search.parentContainsChild(arg.data, basePath);
+                break;
+            default:
+                throw new Error('Command not valid or not specified! Use --help to see available commands.');
+        }
+    }
+
+    console.log('results');
+    console.log(results);
+
+    event.sender.send('results', results);
 });

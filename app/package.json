@@ -13,6 +13,7 @@
   "dependencies": {
     "bulma": "^0.3.1",
     "electron-config": "^0.2.1",
-    "react-treebeard": "^1.1.4"
+    "react-treebeard": "^1.1.4",
+    "twig-search-core": "^0.0.3"
   }
 }

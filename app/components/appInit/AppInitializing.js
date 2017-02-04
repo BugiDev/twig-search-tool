@@ -27,7 +27,6 @@ export default class AppInitializing extends Component {
                 me.setState({ showModal: true });
             }
         }, 1000);
-        // config.delete('basePath');
     }
 
     basePathSelected(basePath) {
@@ -43,14 +42,13 @@ export default class AppInitializing extends Component {
                     <br />
                     <h1 className={`subtitle ${styles.basePath}`}>{`Basepath: ${this.state.basePath}`}</h1>
                 </div>
-            )
-        } else {
-            return (
-                <div className={`uil-ring-css ${styles.centerSpinner}`}>
-                    <div />
-                </div>
             );
         }
+        return (
+            <div className={`uil-ring-css ${styles.centerSpinner}`}>
+                <div />
+            </div>
+        );
     }
 
     render() {

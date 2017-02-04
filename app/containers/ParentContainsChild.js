@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Results from '../components/results/Results';
 import PageTitle from '../components/pageTitle/PageTitle';
 
+const { ipcRenderer } = require('electron');
+
 export default class ParentContainsChild extends Component {
 
     constructor() {
@@ -12,10 +14,25 @@ export default class ParentContainsChild extends Component {
             childName: ''
         };
 
+        this.componentDidMount = this.componentDidMount.bind(this);
+        this.componentWillUnmount = this.componentWillUnmount.bind(this);
+        this.handleSearchResponse = this.handleSearchResponse.bind(this);
         this.clear = this.clear.bind(this);
         this.handleParentNameChange = this.handleParentNameChange.bind(this);
         this.handleChildNameChange = this.handleChildNameChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    componentDidMount() {
+        ipcRenderer.on('results', this.handleSearchResponse);
+    }
+
+    componentWillUnmount() {
+        ipcRenderer.removeListener('results', this.handleSearchResponse);
+    }
+
+    handleSearchResponse(event, arg) {
+        console.log(arg);
     }
 
     clear() {
@@ -34,6 +51,13 @@ export default class ParentContainsChild extends Component {
     }
 
     handleSubmit() {
+        ipcRenderer.send('search', {
+            type: 'parent-contains-child',
+            data: {
+                parentName: this.state.parentName,
+                childName: this.state.childName
+            }
+        });
         console.log('submit');
     }
 

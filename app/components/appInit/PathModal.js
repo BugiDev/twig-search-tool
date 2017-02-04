@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
-import styles from './AppInitializing.css';
 
 export default class PathModal extends Component {
 
@@ -10,7 +8,7 @@ export default class PathModal extends Component {
     }
 
     componentDidMount() {
-        this._inp.webkitdirectory = true
+        this._inp.webkitdirectory = true;
     }
 
     handleInputChange(event) {
@@ -20,11 +18,11 @@ export default class PathModal extends Component {
     render() {
         return (
             <div className="modal is-active">
-                <div className="modal-background"></div>
+                <div className="modal-background" />
                 <div className="modal-content">
                     <div className="box">
                         <h1 className="subtitle">Chose your base path to search .twig files</h1>
-                        <input type="file" ref={i => this._inp = i} onChange={this.handleInputChange}/>
+                        <input type="file" ref={i => this._inp = i} onChange={this.handleInputChange} />
                     </div>
                 </div>
             </div>
