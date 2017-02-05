@@ -305,6 +305,39 @@ ipcMain.on('search', (event, arg) => {
 });
 
 ipcMain.on('open-file', (event, arg) => {
-    cmd.run(`pstorm ${arg}`);
+    const ide = config.get('ide');
+    const basePath = config.get('basePath');
+    for (let x in ide) {
+        if (ide[x]) {
+            openFile(x, basePath + arg);
+        }
+    }
 });
 
+function openFile(type, filePath) {
+    switch (type) {
+        case 'phpStorm':
+            cmd.run(`pstorm ${filePath}`);
+            break;
+        case 'vscode':
+            cmd.run(`code ${filePath}`);
+            break;
+        case 'atom':
+            cmd.run(`atom ${filePath}`);
+            break;
+        case 'brackets':
+            cmd.run(`brackets ${filePath}`);
+            break;
+        case 'sublime':
+            cmd.run(`subl ${filePath}`);
+            break;
+        case 'notepad':
+            cmd.run(`notepad++ ${filePath}`);
+            break;
+        case 'netbeans':
+            cmd.run(`netbeans --open ${filePath}`);
+            break;
+        default:
+            break;
+    }
+}

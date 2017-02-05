@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import styles from './TableRow.css';
+import Checkbox from '../chekcbox/Checkbox';
 
 const {ipcRenderer} = require('electron');
 
-export default class Menu extends Component {
+export default class TableRow extends Component {
 
     constructor() {
         super();
@@ -29,12 +30,7 @@ export default class Menu extends Component {
                 <td><a onClick={this.handlePathClick}>{this.props.path}</a>
                 </td>
                 <td>
-                    <div className="checkbox">
-                        <label>
-                            <input type="checkbox" checked={this.state.modified} onChange={this.handleInputChange}/>
-                            <span className="cr"><i className="cr-icon fa fa-check"/></span>
-                        </label>
-                    </div>
+                    <Checkbox checked={this.state.modified} onChange={this.handleInputChange} />
                 </td>
             </tr>
         );

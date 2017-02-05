@@ -1,38 +1,35 @@
-import React, { Component } from 'react';
-import { Router, hashHistory } from 'react-router';
+import React, {Component} from 'react';
+import {Router, hashHistory} from 'react-router';
 import routes from '../routes';
-import AppInit from '../components/appInit/AppInitializing';
-var {ipcRenderer, remote} = require('electron'); 
+import SettingsModal from '../components/settings/SettingsModal';
+
+const Config = require('electron-config');
+
+const config = new Config();
 
 export default class App extends Component {
 
-  constructor() {
-    super();
+    constructor() {
+        super();
+        this.state = {
+            showSettings: !config.get('basePath')
+        };
 
-    this.state = {
-      initializing: true
-    };
+        this.onSettingsSave = this.onSettingsSave.bind(this);
+    }
 
-    this.initialized = this.initialized.bind(this);
-  }
+    onSettingsSave() {
+        this.setState({
+            showSettings: false
+        });
+    }
 
-  componentDidMount() {
-    const me = this;
-    ipcRenderer.send('test', 1);
-  }
-
-  initialized() {
-    setTimeout(()=>{
-      this.setState({ initializing: false });
-    }, 2000);
-  }
-
-  render() {
-    const appRender = this.state.initializing ? <AppInit initialized={this.initialized} /> : <Router history={hashHistory} routes={routes} />;
-    return (
-      <div className="full-height">
-        {appRender}
-      </div>
-    );
-  }
+    render() {
+        const appRender = this.state.showSettings ? <SettingsModal disableCancel onSaveSettings={this.onSettingsSave}/> : <Router history={hashHistory} routes={routes}/>;
+        return (
+            <div className="full-height">
+                {appRender}
+            </div>
+        );
+    }
 }

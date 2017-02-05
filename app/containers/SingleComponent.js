@@ -18,10 +18,10 @@ export default class SingleComponent extends Component {
         this.componentDidMount = this.componentDidMount.bind(this);
         this.componentWillUnmount = this.componentWillUnmount.bind(this);
         this.handleSearchResponse = this.handleSearchResponse.bind(this);
-        this.clear = this.clear.bind(this);
         this.handleComponentNameChange = this.handleComponentNameChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleKeyPress = this.handleKeyPress.bind(this);
+        this.clear = this.clear.bind(this);
     }
 
     componentDidMount() {
@@ -34,12 +34,6 @@ export default class SingleComponent extends Component {
 
     handleSearchResponse(event, arg) {
         this.setState({loading: false, results: arg});
-    }
-
-    clear() {
-        this.setState({
-            componentName: ''
-        });
     }
 
     handleComponentNameChange(event) {
@@ -62,6 +56,12 @@ export default class SingleComponent extends Component {
                 this.handleSubmit();
             }
         }
+    }
+
+    clear() {
+        this.setState({
+            componentName: ''
+        });
     }
 
     render() {

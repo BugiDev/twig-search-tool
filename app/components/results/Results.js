@@ -2,6 +2,10 @@ import React, {Component} from 'react';
 import Table from '../table/Table';
 import styles from './Results.css';
 
+const Config = require('electron-config');
+
+const config = new Config();
+
 export default class Results extends Component {
 
     constructor() {
@@ -10,6 +14,12 @@ export default class Results extends Component {
         this.renderResults = this.renderResults.bind(this);
         this.renderNoResults = this.renderNoResults.bind(this);
         this.renderLoading = this.renderLoading.bind(this);
+        this.preparePositiveResults = this.preparePositiveResults.bind(this);
+    }
+
+    preparePositiveResults() {
+        const basePath = config.get('basePath');
+        return this.props.results.positives.map((val) => val.slice(basePath.length));
     }
 
     renderResults() {
@@ -32,7 +42,7 @@ export default class Results extends Component {
                         </div>
                     </div>
                 </div>
-                <Table results={this.props.results.positives} />
+                <Table results={this.preparePositiveResults()}/>
             </div>
         );
     }
