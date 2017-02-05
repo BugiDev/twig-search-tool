@@ -9,7 +9,8 @@
     "rules": {
         "indent": [
             "error",
-            4
+            4,
+          { "SwitchCase": 1 }
         ],
         "react/jsx-indent": [
             2,
@@ -22,6 +23,8 @@
         "arrow-parens": [
             "off"
         ],
+        "max-len": "off",
+        "object-curly-spacing": "off",
         "compat/compat": 2,
         "consistent-return": "off",
         "comma-dangle": "off",

@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import Results from '../components/results/Results';
 import PageTitle from '../components/pageTitle/PageTitle';
 
-const { ipcRenderer } = require('electron');
+const {ipcRenderer} = require('electron');
 
 export default class ComponentWithAttribute extends Component {
 
@@ -11,7 +11,9 @@ export default class ComponentWithAttribute extends Component {
         this.state = {
             mode: 'list',
             componentName: '',
-            attributeName: ''
+            attributeName: '',
+            results: null,
+            loading: false
         };
 
         this.componentDidMount = this.componentDidMount.bind(this);
@@ -21,6 +23,7 @@ export default class ComponentWithAttribute extends Component {
         this.handleComponentNameChange = this.handleComponentNameChange.bind(this);
         this.handleAttributeNameChange = this.handleAttributeNameChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleKeyPress = this.handleKeyPress.bind(this);
     }
 
     componentDidMount() {
@@ -32,7 +35,7 @@ export default class ComponentWithAttribute extends Component {
     }
 
     handleSearchResponse(event, arg) {
-        console.log(arg);
+        this.setState({loading: false, results: arg});
     }
 
     clear() {
@@ -43,11 +46,11 @@ export default class ComponentWithAttribute extends Component {
     }
 
     handleComponentNameChange(event) {
-        this.setState({ componentName: event.target.value });
+        this.setState({componentName: event.target.value});
     }
 
     handleAttributeNameChange(event) {
-        this.setState({ attributeName: event.target.value });
+        this.setState({attributeName: event.target.value});
     }
 
     handleSubmit() {
@@ -58,7 +61,15 @@ export default class ComponentWithAttribute extends Component {
                 attributeName: this.state.attributeName
             }
         });
-        console.log('submit');
+        this.setState({loading: true});
+    }
+
+    handleKeyPress(target) {
+        if (target.charCode === 13) {
+            if (this.state.componentName && this.state.attributeName) {
+                this.handleSubmit();
+            }
+        }
     }
 
     render() {
@@ -68,21 +79,36 @@ export default class ComponentWithAttribute extends Component {
                 <PageTitle title="Component with Attribute Search" subtitle="Enter a components name and attribute name to search for a component with defined attribute" />
 
                 <div className="columns">
-                    <div className="column is-one-quarter">
+                    <div className="column is-one-third">
                         <label className="label">Component Name</label>
                         <p className="control">
-                            <input className="input" type="text" placeholder="ui:component-name" value={this.state.componentName} onChange={this.handleComponentNameChange} />
+                            <input
+                                className="input"
+                                type="text"
+                                placeholder="ui:component-name"
+                                value={this.state.componentName}
+                                onChange={this.handleComponentNameChange}
+                                onKeyPress={this.handleKeyPress}
+                            />
                         </p>
                         <label className="label">Attribute Name</label>
                         <p className="control">
-                            <input className="input" type="text" placeholder="attribute" value={this.state.attributeName} onChange={this.handleAttributeNameChange} />
+                            <input
+                                className="input"
+                                type="text"
+                                placeholder="attribute"
+                                value={this.state.attributeName}
+                                onChange={this.handleAttributeNameChange}
+                                onKeyPress={this.handleKeyPress}
+                            />
                         </p>
                         <div className="control is-grouped">
                             <p className="control">
                                 <button
                                     className={`button is-primary ${this.state.componentName && this.state.attributeName ? '' : 'is-disabled'}`}
                                     onClick={this.handleSubmit}
-                                >Search</button>
+                                >Search
+                                </button>
                             </p>
                             <p className="control">
                                 <button className="button is-link" onClick={this.clear}>Cancel</button>
@@ -91,7 +117,7 @@ export default class ComponentWithAttribute extends Component {
                     </div>
                 </div>
 
-                <Results results={['asd']} />
+                <Results loading={this.state.loading} results={this.state.results}/>
             </div>
         );
     }

@@ -10,7 +10,9 @@ export default class MultiComponent extends Component {
         super();
         this.state = {
             mode: 'list',
-            componentName: ''
+            componentName: '',
+            results: null,
+            loading: false
         };
 
         this.componentDidMount = this.componentDidMount.bind(this);
@@ -19,6 +21,7 @@ export default class MultiComponent extends Component {
         this.clear = this.clear.bind(this);
         this.handleComponentNameChange = this.handleComponentNameChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleKeyPress = this.handleKeyPress.bind(this);
     }
 
     componentDidMount() {
@@ -30,7 +33,7 @@ export default class MultiComponent extends Component {
     }
 
     handleSearchResponse(event, arg) {
-        console.log(arg);
+        this.setState({loading: false, results: arg});
     }
 
     clear() {
@@ -50,8 +53,17 @@ export default class MultiComponent extends Component {
                 componentName: this.state.componentName
             }
         });
-        console.log('submit');
+        this.setState({loading: true});
     }
+
+    handleKeyPress(target) {
+        if (target.charCode === 13) {
+            if (this.state.componentName) {
+                this.handleSubmit();
+            }
+        }
+    }
+
     render() {
         return (
             <div>
@@ -59,10 +71,17 @@ export default class MultiComponent extends Component {
                 <PageTitle title="Multiple Component Search" subtitle="Enter a components name to search for multiple component usage in single file" />
 
                 <div className="columns">
-                    <div className="column is-one-quarter">
+                    <div className="column is-one-third">
                         <label className="label">Component Name</label>
                         <p className="control">
-                            <input className="input" type="text" placeholder="ui:component-name" value={this.state.componentName} onChange={this.handleComponentNameChange} />
+                            <input
+                                className="input"
+                                type="text"
+                                placeholder="ui:component-name"
+                                value={this.state.componentName}
+                                onChange={this.handleComponentNameChange}
+                                onKeyPress={this.handleKeyPress}
+                            />
                         </p>
                         <div className="control is-grouped">
                             <p className="control">
@@ -78,7 +97,7 @@ export default class MultiComponent extends Component {
                     </div>
                 </div>
 
-                <Results results={['asd']} />
+                <Results loading={this.state.loading} results={this.state.results}/>
             </div>
         );
     }

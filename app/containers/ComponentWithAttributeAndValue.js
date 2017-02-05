@@ -12,7 +12,9 @@ export default class ComponentWithAttributeAndValue extends Component {
             mode: 'list',
             componentName: '',
             attributeName: '',
-            attributeValue: ''
+            attributeValue: '',
+            results: null,
+            loading: false
         };
 
         this.componentDidMount = this.componentDidMount.bind(this);
@@ -23,6 +25,7 @@ export default class ComponentWithAttributeAndValue extends Component {
         this.handleAttributeNameChange = this.handleAttributeNameChange.bind(this);
         this.handleAttributeValueChange = this.handleAttributeValueChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleKeyPress = this.handleKeyPress.bind(this);
     }
 
     componentDidMount() {
@@ -34,7 +37,7 @@ export default class ComponentWithAttributeAndValue extends Component {
     }
 
     handleSearchResponse(event, arg) {
-        console.log(arg);
+        this.setState({loading: false, results: arg});
     }
 
     clear() {
@@ -66,7 +69,15 @@ export default class ComponentWithAttributeAndValue extends Component {
                 attributeValue: this.state.attributeValue
             }
         });
-        console.log('submit');
+        this.setState({loading: true});
+    }
+
+    handleKeyPress(target) {
+        if (target.charCode === 13) {
+            if (this.state.componentName && this.state.attributeName && this.state.attributeValue) {
+                this.handleSubmit();
+            }
+        }
     }
 
     render() {
@@ -76,14 +87,28 @@ export default class ComponentWithAttributeAndValue extends Component {
                 <PageTitle title="Component with Attribute and Attribute Value Search" subtitle="Enter a components name, attribute name and attribute value to search for a component with defined attribute and it's value" />
 
                 <div className="columns">
-                    <div className="column is-one-quarter">
+                    <div className="column is-one-third">
                         <label className="label">Component Name</label>
                         <p className="control">
-                            <input className="input" type="text" placeholder="ui:component-name" value={this.state.componentName} onChange={this.handleComponentNameChange} />
+                            <input
+                                className="input"
+                                type="text"
+                                placeholder="ui:component-name"
+                                value={this.state.componentName}
+                                onChange={this.handleComponentNameChange}
+                                onKeyPress={this.handleKeyPress}
+                            />
                         </p>
                         <label className="label">Attribute Name</label>
                         <p className="control">
-                            <input className="input" type="text" placeholder="attribute" value={this.state.attributeName} onChange={this.handleAttributeNameChange} />
+                            <input
+                                className="input"
+                                type="text"
+                                placeholder="attribute"
+                                value={this.state.attributeName}
+                                onChange={this.handleAttributeNameChange}
+                                onKeyPress={this.handleKeyPress}
+                            />
                         </p>
                         <label className="label">Attribute Value</label>
                         <p className="control">
@@ -103,7 +128,7 @@ export default class ComponentWithAttributeAndValue extends Component {
                     </div>
                 </div>
 
-                <Results results={['asd']} />
+                <Results loading={this.state.loading} results={this.state.results} />
             </div>
         );
     }

@@ -1,7 +1,8 @@
-import { app, BrowserWindow, Menu, shell, ipcMain } from 'electron';
+import {app, BrowserWindow, Menu, shell, ipcMain} from 'electron';
 
-const Search = require('./search/Search');
 const Config = require('electron-config');
+const cp = require('child_process');
+const cmd = require('node-cmd');
 
 const config = new Config();
 
@@ -26,7 +27,7 @@ app.on('window-all-closed', () => {
 });
 
 
-const installExtensions = async () => {
+const installExtensions = async() => {
     if (process.env.NODE_ENV === 'development') {
         const installer = require('electron-devtools-installer'); // eslint-disable-line global-require
 
@@ -45,15 +46,15 @@ const installExtensions = async () => {
     }
 };
 
-app.on('ready', async () => {
+app.on('ready', async() => {
     await installExtensions();
 
     mainWindow = new BrowserWindow({
         show: false,
-        width: 1024,
-        height: 728,
-        minHeight: 728,
-        minWidth: 1024
+        width: 1280,
+        height: 800,
+        minWidth: 1280,
+        minHeight: 800,
     });
 
     mainWindow.loadURL(`file://${__dirname}/app.html`);
@@ -63,6 +64,8 @@ app.on('ready', async () => {
         mainWindow.focus();
     });
 
+    mainWindow.maximize();
+
     mainWindow.on('closed', () => {
         mainWindow = null;
     });
@@ -70,7 +73,7 @@ app.on('ready', async () => {
     if (process.env.NODE_ENV === 'development') {
         mainWindow.openDevTools();
         mainWindow.webContents.on('context-menu', (e, props) => {
-            const { x, y } = props;
+            const {x, y} = props;
 
             Menu.buildFromTemplate([{
                 label: 'Inspect element',
@@ -283,33 +286,25 @@ app.on('ready', async () => {
 });
 
 ipcMain.on('search', (event, arg) => {
-    let results = [];
     const basePath = config.get('basePath');
 
-    if (arg && arg.type && basePath) {
-        switch (arg.type) {
-            case 'single-component':
-                results = Search.singleComponent(arg.data, basePath);
-                break;
-            case 'multi-component':
-                results = Search.multiComponent(arg.data, basePath);
-                break;
-            case 'component-with-attribute':
-                results = Search.componentWithAttribute(arg.data, basePath);
-                break;
-            case 'component-with-attribute-and-value':
-                results = Search.componentWithAttributeAndValue(arg.data, basePath);
-                break;
-            case 'parent-contains-child':
-                results = Search.parentContainsChild(arg.data, basePath);
-                break;
-            default:
-                throw new Error('Command not valid or not specified! Use --help to see available commands.');
-        }
-    }
+    const child = cp.fork('./app/search/worker');
 
-    console.log('results');
-    console.log(results);
+    child.on('message', (results) => {
+        // Receive results from child process
+        event.sender.send('results', results);
+        child.kill();
+    });
 
-    event.sender.send('results', results);
+    // Send child process some work
+    child.send({
+        type: arg.type,
+        basePath,
+        data: arg.data
+    });
 });
+
+ipcMain.on('open-file', (event, arg) => {
+    cmd.run(`pstorm ${arg}`);
+});
+

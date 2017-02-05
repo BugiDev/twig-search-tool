@@ -11,7 +11,9 @@ export default class ParentContainsChild extends Component {
         this.state = {
             mode: 'list',
             parentName: '',
-            childName: ''
+            childName: '',
+            results: null,
+            loading: false
         };
 
         this.componentDidMount = this.componentDidMount.bind(this);
@@ -21,6 +23,7 @@ export default class ParentContainsChild extends Component {
         this.handleParentNameChange = this.handleParentNameChange.bind(this);
         this.handleChildNameChange = this.handleChildNameChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleKeyPress = this.handleKeyPress.bind(this);
     }
 
     componentDidMount() {
@@ -32,7 +35,7 @@ export default class ParentContainsChild extends Component {
     }
 
     handleSearchResponse(event, arg) {
-        console.log(arg);
+        this.setState({loading: false, results: arg});
     }
 
     clear() {
@@ -58,7 +61,15 @@ export default class ParentContainsChild extends Component {
                 childName: this.state.childName
             }
         });
-        console.log('submit');
+        this.setState({loading: true});
+    }
+
+    handleKeyPress(target) {
+        if (target.charCode === 13) {
+            if (this.state.parentName && this.state.childName) {
+                this.handleSubmit();
+            }
+        }
     }
 
     render() {
@@ -68,14 +79,28 @@ export default class ParentContainsChild extends Component {
                 <PageTitle title="Parent Component with Child Component Search" subtitle="Enter a parent component name and child component name to search for a parent component that contains child component" />
 
                 <div className="columns">
-                    <div className="column is-one-quarter">
+                    <div className="column is-one-third">
                         <label className="label">Parent Component Name</label>
                         <p className="control">
-                            <input className="input" type="text" placeholder="ui:component-name" value={this.state.parentName} onChange={this.handleParentNameChange} />
+                            <input
+                                className="input"
+                                type="text"
+                                placeholder="ui:component-name"
+                                value={this.state.parentName}
+                                onChange={this.handleParentNameChange}
+                                onKeyPress={this.handleKeyPress}
+                            />
                         </p>
                         <label className="label">Child Component Name</label>
                         <p className="control">
-                            <input className="input" type="text" placeholder="ui:component-name" value={this.state.childName} onChange={this.handleChildNameChange} />
+                            <input
+                                className="input"
+                                type="text"
+                                placeholder="ui:component-name"
+                                value={this.state.childName}
+                                onChange={this.handleChildNameChange}
+                                onKeyPress={this.handleKeyPress}
+                            />
                         </p>
                         <div className="control is-grouped">
                             <p className="control">
@@ -91,7 +116,7 @@ export default class ParentContainsChild extends Component {
                     </div>
                 </div>
 
-                <Results results={['asd']} />
+                <Results loading={this.state.loading} results={this.state.results}/>
             </div>
         );
     }
