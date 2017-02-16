@@ -1,26 +1,27 @@
 const fs = require('fs');
 const core = require('twig-search-core');
 
-module.exports = (flags, rootPath) => {
-    const allFilenames = core.getAllTwigs(rootPath);
-    const errors = [];
-    const positives = [];
+process.on('message', (payload) => {
+    if (payload && payload.filepaths && payload.data) {
+        const allFileNames = payload.filepaths;
+        const errors = [];
+        const positives = [];
 
-    allFilenames.forEach((filepath) => {
-        const data = fs.readFileSync(filepath, 'utf8');
-        const contains = core.componentHasAttributeWithValue(data, flags.componentName, flags.attributeName, flags.attributeValue);
+        allFileNames.forEach((filepath) => {
+            const data = fs.readFileSync(filepath, 'utf8');
+            const contains = core.componentHasAttributeWithValue(data, payload.data.componentName, payload.data.attributeName, payload.data.attributeValue);
 
-        if (contains.error) {
-            errors.push({ filepath, message: contains.error });
-        } else {
+            if (contains.error) {
+                errors.push({filepath, message: contains.error});
+            }
             if (contains.value) {
                 positives.push(filepath);
             }
-        }
-    });
+        });
 
-    return {
-        errors,
-        positives
-    };
-};
+        process.send({
+            errors,
+            positives
+        });
+    }
+});
