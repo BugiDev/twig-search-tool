@@ -37,9 +37,9 @@ export default class ComponentWithAttributeAndValue extends Component {
         ipcRenderer.send('search', {
             type: 'component-with-attribute-and-value',
             data: {
-                componentName: componentName,
-                attributeName: attributeName,
-                attributeValue: attributeValue
+                componentName,
+                attributeName,
+                attributeValue
             }
         });
         this.setState({loading: true});
@@ -48,11 +48,12 @@ export default class ComponentWithAttributeAndValue extends Component {
     render() {
         return (
             <div className="box is-fullwidth">
-                <PageTitle title="Component with Attribute and Attribute Value Search"
-                           subtitle="Enter a components name, attribute name and attribute value to search for a component with defined attribute and it's value"
+                <PageTitle
+                    title="Component with Attribute and Attribute Value Search"
+                    subtitle="Enter a components name, attribute name and attribute value to search for a component with defined attribute and it's value"
                 />
-                <ComponentWithAttributeAndValueHeader onSubmit={this.handleSubmit}/>
-                <Results loading={this.state.loading} results={this.state.results}/>
+                <ComponentWithAttributeAndValueHeader onSubmit={this.handleSubmit} />
+                <Results loading={this.state.loading} results={this.state.results} />
             </div>
         );
     }

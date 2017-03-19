@@ -11,14 +11,13 @@ process.on('message', (payload) => {
             const data = fs.readFileSync(filepath, 'utf8');
             try {
                 const xmlDoc = libxmljs.parseXml(data);
-                const found = xmlDoc.find(`//${payload.data.componentName}`, {ui: 'http://mis.arbor.sc/ui'});
-                if (found.length) {
+                const found = xmlDoc.get(`//${payload.data.componentName}`, {ui: 'http://mis.arbor.sc/ui'});
+                if (found) {
                     positives.push(filepath);
                 }
             } catch (e) {
                 errors.push({filepath, message: e.message});
             }
-
         });
 
         process.send({

@@ -37,8 +37,8 @@ export default class ComponentWithAttribute extends Component {
         ipcRenderer.send('search', {
             type: 'component-with-attribute',
             data: {
-                componentName: componentName,
-                attributeName: attributeName
+                componentName,
+                attributeName
             }
         });
         this.setState({loading: true});
@@ -51,8 +51,8 @@ export default class ComponentWithAttribute extends Component {
                     title="Component with Attribute Search"
                     subtitle="Enter a components name and attribute name to search for a component with defined attribute"
                 />
-                <ComponentWithAttributeHeader onSubmi={this.handleSubmit}/>
-                <Results loading={this.state.loading} results={this.state.results}/>
+                <ComponentWithAttributeHeader onSubmit={this.handleSubmit} />
+                <Results loading={this.state.loading} results={this.state.results} />
             </div>
         );
     }

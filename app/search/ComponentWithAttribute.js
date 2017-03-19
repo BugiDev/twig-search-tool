@@ -1,5 +1,5 @@
 const fs = require('fs');
-const core = require('twig-search-core');
+const libxmljs = require('libxmljs');
 
 process.on('message', (payload) => {
     if (payload && payload.filepaths && payload.data) {
@@ -9,13 +9,15 @@ process.on('message', (payload) => {
 
         allFileNames.forEach((filepath) => {
             const data = fs.readFileSync(filepath, 'utf8');
-            const contains = core.componentHasAttribute(data, payload.data.componentName, payload.data.attributeName);
 
-            if (contains.error) {
-                errors.push({filepath, message: contains.error});
-            }
-            if (contains.value) {
-                positives.push(filepath);
+            try {
+                const xmlDoc = libxmljs.parseXml(data);
+                const found = xmlDoc.find(`//${payload.data.componentName}[@${payload.data.attributeName}]`, {ui: 'http://mis.arbor.sc/ui'});
+                if (found.length) {
+                    positives.push(filepath);
+                }
+            } catch (e) {
+                errors.push({filepath, message: e.message});
             }
         });
 
