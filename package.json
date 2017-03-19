@@ -1,8 +1,8 @@
 {
     "name": "twig-search-tool",
     "productName": "TwigSearchTool",
-    "version": "0.0.1",
-    "description": "Electron tool for searching through twig files for components Edit",
+    "version": "0.1.0",
+    "description": "Electron tool for searching through twig files for components",
     "main": "main.js",
     "scripts": {
         "lint": "eslint --cache --format=node_modules/eslint-formatter-pretty .",
