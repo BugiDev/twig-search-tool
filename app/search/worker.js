@@ -41,12 +41,12 @@ function createWorkers(workerPath, payload, allFileNames, workers) {
     let workersRef = workers;
     for (let i = 0; i < numCPUs; i++) {
         const worker = cp.fork(workerPath);
+        worker.title = `twig_search_tool_child_${i}`;
         workersRef.push(worker);
 
         worker.on('message', (workerResults) => {
             totalResults.positives = totalResults.positives.concat(workerResults.positives);
             totalResults.errors = totalResults.errors.concat(workerResults.errors);
-            worker.kill();
 
             const tmpChildren = [];
 
@@ -61,6 +61,11 @@ function createWorkers(workerPath, payload, allFileNames, workers) {
                 process.send(totalResults);
             }
         });
+
+        worker.on('exit', () => {
+            worker.kill();
+        });
+
 
         const partLength = Math.floor(allFileNames.length / numCPUs);
         let workerPaths;

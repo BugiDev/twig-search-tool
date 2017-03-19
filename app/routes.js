@@ -1,11 +1,11 @@
 import React from 'react';
 import { Route, IndexRedirect } from 'react-router';
-import Pages from './containers/Pages';
-import SingleComponent from './containers/SingleComponent';
-import MultiComponent from './containers/MultiComponent';
-import ComponentWithAttribute from './containers/ComponentWithAttribute';
-import ComponentWithAttributeAndValue from './containers/ComponentWithAttributeAndValue';
-import ParentContainsChild from './containers/ParentContainsChild';
+import Pages from './pages/Pages';
+import SingleComponent from './pages/singleComponent/SingleComponent';
+import MultiComponent from './pages/multiComponent/MultiComponent';
+import ComponentWithAttribute from './pages/componentWithAttribute/ComponentWithAttribute';
+import ComponentWithAttributeAndValue from './pages/componentWithAttributeAndValue/ComponentWithAttributeAndValue';
+import ParentContainsChild from './pages/parentContainsChild/ParentContainsChild';
 
 export default (
     <Route path="/" component={Pages}>

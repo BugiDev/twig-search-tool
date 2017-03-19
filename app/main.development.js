@@ -98,8 +98,11 @@ ipcMain.on('search', (event, arg) => {
         results.positives.sort();
         results.errors.sort();
         event.sender.send('results', results);
-        child.kill();
         console.timeEnd("search");
+    });
+
+    child.on('exit', () => {
+        child.kill();
     });
 
     // Send child process some work

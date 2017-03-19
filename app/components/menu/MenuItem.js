@@ -5,7 +5,7 @@ export default class MenuItem extends Component {
 
     static propTypes = {
         name: React.PropTypes.string.isRequired,
-        link: React.PropTypes.string.isRequired,
+        link: React.PropTypes.string.isRequired
     };
 
     render() {
