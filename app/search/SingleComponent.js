@@ -1,9 +1,6 @@
 const fs = require('fs');
 const libxmljs = require('libxmljs');
 
-console.dir(libxmljs);
-
-
 process.on('message', (payload) => {
     if (payload && payload.filepaths && payload.data) {
         const allFileNames = payload.filepaths;
