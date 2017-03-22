@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import {Router, hashHistory} from 'react-router';
 import routes from '../routes';
 import SettingsModal from '../components/settings/SettingsModal';
@@ -7,7 +7,7 @@ const Config = require('electron-config');
 
 const config = new Config();
 
-export default class App extends Component {
+export default class App extends PureComponent {
 
     constructor() {
         super();

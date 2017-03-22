@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Link } from 'react-router';
 
-export default class MenuItem extends Component {
+export default class MenuItem extends PureComponent {
 
     static propTypes = {
         name: React.PropTypes.string.isRequired,

@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import SettingsModal from '../settings/SettingsModal';
 
 const Config = require('electron-config');
 
 const config = new Config();
 
-export default class PageHeader extends Component {
+export default class PageHeader extends PureComponent {
 
     constructor() {
         super();

@@ -1,9 +1,9 @@
 /**
  * Created by bogdanbegovic on 3/18/17.
  */
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 
-export default class SingleComponentHeader extends Component {
+export default class SingleComponentHeader extends PureComponent {
 
     constructor() {
         super();
@@ -61,7 +61,8 @@ export default class SingleComponentHeader extends Component {
                             <button
                                 className={`button is-primary ${this.state.componentName ? '' : 'is-disabled'}`}
                                 onClick={this.handleSubmit}
-                            >Search
+                            >
+                                Search
                             </button>
                         </p>
                         <p className="control">

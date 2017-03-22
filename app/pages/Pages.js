@@ -1,15 +1,15 @@
 import React, {Component} from 'react';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+
 import Menu from '../components/menu/Menu';
 import PageHeader from '../components/pageHeader/PageHeader';
-
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import transitions from '../css/transitions.css';
 
 export default class Pages extends Component {
 
     render() {
-        var path = this.props.location.pathname;
-        var segment = path.split('/')[1] || 'root';
+        const path = this.props.location.pathname;
+        const segment = path.split('/')[1] || 'root';
         return (
             <div className="full-height">
                 <section className="section full-height">
@@ -25,7 +25,7 @@ export default class Pages extends Component {
                                 transitionEnterTimeout={300}
                                 transitionLeaveTimeout={300}
                                 transitionAppearTimeout={300}
-                                transitionAppear={true}
+                                transitionAppear
                             >
                                 {React.cloneElement(this.props.children, { key: segment })}
                             </ReactCSSTransitionGroup>

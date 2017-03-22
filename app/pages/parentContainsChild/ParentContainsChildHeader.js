@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
-export default class ParentContainsChildHeader extends Component {
+export default class ParentContainsChildHeader extends PureComponent {
 
     constructor() {
         super();

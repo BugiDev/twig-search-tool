@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import styles from './TableRow.css';
 import Checkbox from '../chekcbox/Checkbox';
 
 const {ipcRenderer} = require('electron');
 
-export default class TableRow extends Component {
+export default class TableRow extends PureComponent {
 
     constructor() {
         super();
@@ -15,8 +15,8 @@ export default class TableRow extends Component {
         this.handlePathClick = this.handlePathClick.bind(this);
     }
 
-    handleInputChange(event) {
-        this.setState({modified: event.target.checked});
+    handleInputChange(event, checked) {
+        this.setState({modified: checked});
     }
 
     handlePathClick() {

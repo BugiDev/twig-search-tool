@@ -62,10 +62,6 @@ path-exists@^2.0.0:
   dependencies:
     pinkie-promise "^2.0.0"
 
-performance-now@^0.2.0, performance-now@~0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-0.2.0.tgz#33ef30c5c77d4ea21c5a53869d91b56d8f2555e5"
-
 pinkie-promise@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/pinkie-promise/-/pinkie-promise-2.0.1.tgz#2135d6dfa7a358c069ac9b178776288228450ffa"
@@ -82,24 +78,9 @@ pkg-up@^1.0.0:
   dependencies:
     find-up "^1.0.0"
 
-raf@^3.1.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/raf/-/raf-3.3.0.tgz#93845eeffc773f8129039f677f80a36044eee2c3"
-  dependencies:
-    performance-now "~0.2.0"
-
-react-motion@^0.4.2:
-  version "0.4.7"
-  resolved "https://registry.yarnpkg.com/react-motion/-/react-motion-0.4.7.tgz#f77331ec7920bdb0d0cfc37eb6ffa10571bf42c7"
-  dependencies:
-    performance-now "^0.2.0"
-    raf "^3.1.0"
-
-react-router-transition@^0.0.6:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/react-router-transition/-/react-router-transition-0.0.6.tgz#5da212f1c028e79534452bd2a8cf6bf02fc81963"
-  dependencies:
-    react-motion "^0.4.2"
+react-treeview@^0.4.6:
+  version "0.4.6"
+  resolved "https://registry.yarnpkg.com/react-treeview/-/react-treeview-0.4.6.tgz#c4e5d209ab6dc736c4e8c51410d37821c41ce061"
 
 sax@>=0.6.0:
   version "1.2.1"

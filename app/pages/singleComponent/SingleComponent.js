@@ -10,7 +10,6 @@ export default class SingleComponent extends Component {
     constructor() {
         super();
         this.state = {
-            mode: 'list',
             results: null,
             loading: false
         };
@@ -37,21 +36,24 @@ export default class SingleComponent extends Component {
         ipcRenderer.send('search', {
             type: 'single-component',
             data: {
-                componentName: componentName
+                componentName
             }
         });
         this.setState({loading: true});
     }
 
     render() {
+
+        console.log('render');
+
         return (
             <div className="box is-fullwidth">
 
-                <PageTitle title="Single Component Search" subtitle="Enter a components name to search for it"/>
+                <PageTitle title="Single Component Search" subtitle="Enter a components name to search for it" />
 
                 <SingleComponentHeader onSubmit={this.handleSubmit} />
 
-                <Results loading={this.state.loading} results={this.state.results}/>
+                <Results loading={this.state.loading} results={this.state.results} />
             </div>
         );
     }

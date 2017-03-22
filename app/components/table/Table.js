@@ -17,7 +17,7 @@ export default class Table extends Component {
                         <tbody>
                         {
                             this.props.results.map((path, index)=> {
-                                return (<TableRow number={index} path={path} key={index}/>);
+                                return (<TableRow number={index} path={path} key={path} />);
                             })
                         }
                         </tbody>
