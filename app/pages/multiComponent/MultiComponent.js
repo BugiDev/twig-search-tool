@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Map } from 'immutable';
 import Results from '../../components/results/Results';
 import PageTitle from '../../components/pageTitle/PageTitle';
 import MultiComponentHeader from './MultiComponentHeader';
@@ -30,14 +31,14 @@ export default class MultiComponent extends Component {
     }
 
     handleSearchResponse(event, arg) {
-        this.setState({loading: false, results: arg});
+        this.setState({loading: false, results: Map(arg)});
     }
 
     handleSubmit(componentName) {
         ipcRenderer.send('search', {
             type: 'multi-component',
             data: {
-                componentName: componentName
+                componentName
             }
         });
         this.setState({loading: true});
@@ -50,8 +51,8 @@ export default class MultiComponent extends Component {
                     title="Multiple Component Search"
                     subtitle="Enter a components name to search for multiple component usage in single file"
                 />
-                <MultiComponentHeader onSubmit={this.handleSubmit}/>
-                <Results loading={this.state.loading} results={this.state.results}/>
+                <MultiComponentHeader onSubmit={this.handleSubmit} />
+                <Results loading={this.state.loading} results={this.state.results} />
             </div>
         );
     }

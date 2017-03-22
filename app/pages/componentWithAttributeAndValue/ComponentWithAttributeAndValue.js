@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Map } from 'immutable';
 import Results from '../../components/results/Results';
 import PageTitle from '../../components/pageTitle/PageTitle';
 import ComponentWithAttributeAndValueHeader from './ComponentWithAttributeAndValueHeader';
@@ -30,7 +31,7 @@ export default class ComponentWithAttributeAndValue extends Component {
     }
 
     handleSearchResponse(event, arg) {
-        this.setState({loading: false, results: arg});
+        this.setState({loading: false, results: Map(arg)});
     }
 
     handleSubmit(componentName, attributeName, attributeValue) {

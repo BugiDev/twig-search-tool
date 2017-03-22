@@ -1,9 +1,9 @@
 /**
  * Created by bogdanbegovic on 3/20/17.
  */
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 
-export default class ResultsDisplaySwitch extends Component {
+export default class ResultsDisplaySwitch extends PureComponent {
 
     static propTypes = {
         changeDisplayType: React.PropTypes.func
@@ -17,7 +17,6 @@ export default class ResultsDisplaySwitch extends Component {
         };
 
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.shouldComponentUpdate = this.shouldComponentUpdate.bind(this);
     }
 
     handleSubmit(displayType) {

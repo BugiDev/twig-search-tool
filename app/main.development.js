@@ -85,9 +85,14 @@ app.on('ready', async() => {
     }
 });
 
+function preparePositiveResults(positives) {
+    const basePath = config.get('basePath');
+    return positives.map((val) => val.slice(basePath.length + 1));
+}
+
 ipcMain.on('search', (event, arg) => {
 
-    console.time("search");
+    console.time('search');
 
     const basePath = config.get('basePath');
 
@@ -96,9 +101,10 @@ ipcMain.on('search', (event, arg) => {
     child.on('message', (results) => {
         // Receive results from child process
         results.positives.sort();
+        results.positives = preparePositiveResults(results.positives);
         results.errors.sort();
         event.sender.send('results', results);
-        console.timeEnd("search");
+        console.timeEnd('search');
     });
 
     child.on('exit', () => {

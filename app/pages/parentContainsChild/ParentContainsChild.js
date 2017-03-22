@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Map } from 'immutable';
 import Results from '../../components/results/Results';
 import PageTitle from '../../components/pageTitle/PageTitle';
 import ParentContainsChildHeader from './ParentContainsChildHeader';
@@ -30,7 +31,7 @@ export default class ParentContainsChild extends Component {
     }
 
     handleSearchResponse(event, arg) {
-        this.setState({loading: false, results: arg});
+        this.setState({loading: false, results: Map(arg)});
     }
 
     handleSubmit(parentName, childName) {

@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Map } from 'immutable';
 import Results from '../../components/results/Results';
 import PageTitle from '../../components/pageTitle/PageTitle';
 import SingleComponentHeader from './SingleComponentHeader';
@@ -29,7 +30,7 @@ export default class SingleComponent extends Component {
     }
 
     handleSearchResponse(event, arg) {
-        this.setState({loading: false, results: arg});
+        this.setState({loading: false, results: Map(arg)});
     }
 
     handleSubmit(componentName) {
@@ -43,9 +44,6 @@ export default class SingleComponent extends Component {
     }
 
     render() {
-
-        console.log('render');
-
         return (
             <div className="box is-fullwidth">
 
