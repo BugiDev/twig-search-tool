@@ -13,27 +13,45 @@
 }
 
 .tree-view_children-collapsed {
-  height: 0px;
+  height: 0;
 }
 
 .tree-view_arrow {
   cursor: pointer;
   margin-right: 6px;
   display: inline-block;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
+  padding: 0 2px 0 2px;
+  transition: 0.2s ease-in-out;
 }
 
 .tree-view_arrow:after {
-  content: '▾';
+  font-family: FontAwesome;
+  content: "\f0d7";
 }
 
 /* rotate the triangle to close it */
 .tree-view_arrow-collapsed {
-  -webkit-transform: rotate(-90deg);
-  -moz-transform: rotate(-90deg);
-  -ms-transform: rotate(-90deg);
   transform: rotate(-90deg);
+}
+
+.tree-view-file {
+  margin: 4px 0 4px 10px;
+  cursor: pointer;
+}
+
+.tree-view-file-text{
+  margin-left: 5px;
+}
+
+.tree-view-file-icon{
+  color: #00d1b2;
+}
+
+.tree-view-folder {
+  cursor: pointer;
+}
+
+.tree-view-folder-text {
+  margin-left: 5px;
 }

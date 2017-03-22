@@ -6,7 +6,11 @@ import React, {Component} from 'react';
 import path from 'path';
 import TreeView from 'react-treeview';
 
+import TreeFileItem from './TreeFileItem';
+import TreeFolderItem from './TreeFolderItem';
+
 const Config = require('electron-config');
+const {ipcRenderer} = require('electron');
 
 const config = new Config();
 
@@ -16,22 +20,30 @@ export default class Tree extends Component {
         super();
         this.state = {
             tree: {},
-            collapsedBookkeeping: {}
+            collapsedBookkeeping: {},
+            basePath: config.get('basePath')
         };
 
         this.prepareTreeData = this.prepareTreeData.bind(this);
         this.createTreeData = this.createTreeData.bind(this);
         this.componentWillMount = this.componentWillMount.bind(this);
+        this.handleFolderClick = this.handleFolderClick.bind(this);
+        this.handleFileClick = this.handleFileClick.bind(this);
     }
 
     componentWillMount() {
         this.prepareTreeData();
     }
 
-    handleClick(i) {
+    handleFolderClick(i) {
         const collapsedBookkeeping = this.state.collapsedBookkeeping;
         collapsedBookkeeping[i] = !collapsedBookkeeping[i];
         this.setState({collapsedBookkeeping});
+    }
+
+    handleFileClick(i) {
+        debugger;
+        ipcRenderer.send('open-file', i);
     }
 
     prepareTreeData() {
@@ -66,20 +78,15 @@ export default class Tree extends Component {
     }
 
     renderTreeComponent(root, rootName, rootPath) {
-        const label = (
-            <span className="node" onClick={this.handleClick.bind(this, rootPath)}>
-                {rootName}
-            </span>
-        );
         if (Array.isArray(root)) {
             return (
                 <TreeView
                     key={rootPath}
-                    nodeLabel={label}
+                    nodeLabel={<TreeFolderItem name={rootName} handleClick={this.handleFolderClick} />}
                     collapsed={this.state.collapsedBookkeeping[rootPath]}
-                    onClick={this.handleClick.bind(this, rootPath)}
+                    onClick={() => { this.handleFolderClick(rootPath); }}
                 >
-                    {root.map(entry => <div className="info" key={entry}>{entry}</div>)}
+                    {root.map(entry => <TreeFileItem name={entry} handleClick={this.handleFileClick} path={`${rootPath}/${entry}`} />)}
                 </TreeView>
             );
         } else {
@@ -92,9 +99,9 @@ export default class Tree extends Component {
             return (
                 <TreeView
                     key={rootPath}
-                    nodeLabel={label}
+                    nodeLabel={<TreeFolderItem name={rootName} handleClick={this.handleFolderClick} />}
                     collapsed={this.state.collapsedBookkeeping[rootPath]}
-                    onClick={this.handleClick.bind(this, rootPath)}
+                    onClick={() => { this.handleFolderClick(rootPath); }}
                 >
                     {treeViewArray}
                 </TreeView>
@@ -103,10 +110,9 @@ export default class Tree extends Component {
     }
 
     render() {
-        const basePath = config.get('basePath');
         return (
             <div>
-                {this.renderTreeComponent(this.state.tree, basePath, '')}
+                {this.renderTreeComponent(this.state.tree, this.state.basePath, '')}
             </div>
         );
     }

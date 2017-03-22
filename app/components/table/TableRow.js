@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
 import styles from './TableRow.css';
-import Checkbox from '../chekcbox/Checkbox';
+import Checkbox from '../checkbox/Checkbox';
 
 const {ipcRenderer} = require('electron');
 

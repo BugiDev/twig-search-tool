@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Checkbox from '../chekcbox/Checkbox';
+import Checkbox from '../checkbox/Checkbox';
 
 const Config = require('electron-config');
 

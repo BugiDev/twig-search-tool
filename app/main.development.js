@@ -130,6 +130,7 @@ ipcMain.on('open-file', (event, arg) => {
 });
 
 function openFile(type, filePath) {
+    console.log(filePath);
     switch (type) {
         case 'phpStorm':
             cmd.run(`pstorm ${filePath}`);
